@@ -13,11 +13,17 @@ title:{
     describe:"Note Title",
     demandOption:true,
     type:'string'
+},
+body:{
+    description:"Node Body",
+    demandOption:true,
+    type:"string"
 }
     },
     description:"add a new note",
     handler:function(argv){
-        console.log("adding a new note!",argv);
+        console.log("Title:",argv.title);
+        console.log("body:",argv.body);
     }
 })
 
