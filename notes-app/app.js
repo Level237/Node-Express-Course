@@ -1,4 +1,6 @@
-const add=require('./utils.js');
+const validator=require('validator');
+const getNotes=require('./notes.js');
 
-const sum=add(2,-3)
-console.log(sum);
+const notes=getNotes();
+console.log(notes);
+console.log(validator.isEmail("Bramslevel@gmail.com"));
