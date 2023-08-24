@@ -2,6 +2,7 @@
 const chalk=require('chalk');
 const { truncateSync } = require('fs');
 const yargs=require('yargs');
+const notes=require('./notes.js');
 
 yargs.version("1.1.0")
 
@@ -22,8 +23,7 @@ body:{
     },
     description:"add a new note",
     handler:function(argv){
-        console.log("Title:",argv.title);
-        console.log("body:",argv.body);
+        notes.addNotes(argv.title,argv.body);
     }
 })
 
