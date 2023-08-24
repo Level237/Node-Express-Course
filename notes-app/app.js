@@ -4,6 +4,7 @@ const { truncateSync } = require('fs');
 const yargs=require('yargs');
 const notes=require('./notes.js');
 
+
 yargs.version("1.1.0")
 
 //Create a new note
@@ -31,9 +32,16 @@ body:{
 
 yargs.command({
     command:"remove",
-    description:"add a new note",
-    handler:function(){
-        console.log("removing the note!");
+    description:"remove note",
+    builder:{
+title:{
+    describe:"Note Title",
+    demandOption:true,
+    type:'string'
+}
+    },
+    handler:function(argv){
+        notes.removeNote(argv.title)
     }
 })
 
