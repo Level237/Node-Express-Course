@@ -1,13 +1,19 @@
-console.log("starting");
+const axios=require('axios')
 
 
-setTimeout(()=>{
+const url="http://api.weatherapi.com/v1/forecast.json"
 
-    console.log("2000 second timer");
-},2000)
+axios.get(url,{
+    params: {
+        q: "london"
+      },headers:{
+        key:"2495f968871c4b1db28123805232508"
+      }
+}).then((response)=>{
+    
+    console.log(response.data);
+}).catch(err=>{
+    console.log(err);
+})
 
-setTimeout(()=>{
-    console.log("0 second timer");
-},0)
 
-console.log("stopping");
