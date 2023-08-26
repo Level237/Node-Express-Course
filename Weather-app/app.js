@@ -12,17 +12,17 @@ axios.get(url,{
       }
 }).then((response)=>{
     
-    
+    console.log(response.data);
 }).catch(err=>{
     console.log(err);
 })
 
-const geoCodeUrl='http://us1.locationiq.com//v1/search?key=pk.5662601f43f70d5ab4a2af452f4348bd&q=Los Angeles&format=json'
+//const geoCodeUrl='http://us1.locationiq.com//v1/search?key=pk.5662601f43f70d5ab4a2af452f4348bd&q=Los Angeles&format=json'
 
-axios.get(geoCodeUrl).then((response)=>{
+//axios.get(geoCodeUrl).then((response)=>{
     
-    console.log(response.data[0]);
-}).catch(err=>{
-    console.log(err);
-})
+    //console.log(response.data[0]);
+//}).catch(err=>{
+    //console.log(err);
+//})
 
