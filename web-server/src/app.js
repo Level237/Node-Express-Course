@@ -2,9 +2,12 @@ const express=require('express')
 const path=require('path')
 const app=express()
 
+//define path for express config
 const publicDirectoryPath=path.join(__dirname,'../public')
+const viewPath=path.join(__dirname,"../templates")
 
 app.set("view engine","hbs")
+app.set('views',viewPath)
 app.use(express.static(publicDirectoryPath))
 
 
