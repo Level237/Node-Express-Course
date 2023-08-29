@@ -26,6 +26,16 @@ app.get('',(req,res)=>{
     });
 })
 
+app.get('/help/*',(req,res)=>{
+
+    res.render('notFound',{
+        title:"404",
+        error:"Help article not found",
+        name:"Balep martin"
+    }
+    );
+})
+
 app.get('/help',(req,res)=>{
     res.render("help",{
         title:"Help",
@@ -47,10 +57,14 @@ app.get('/weather',(req,res)=>{
         location:"London"
     });
 })
-//app.com
-//app.com/help
-//app.com/about
 
+app.get('*',(req,res)=>{
+    res.render('notFound',{
+        title:'404',
+        name:"balep martin",
+        error:"Page not Found"
+    })
+})
 app.listen(3000,()=>{
     console.log("Server is up on server 3000");
 })
