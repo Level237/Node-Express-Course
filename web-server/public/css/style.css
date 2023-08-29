@@ -40,3 +40,17 @@ text-decoration: none;
 .main-content{
     flex-grow: 1;
 }
+
+input{
+
+    border: 3px solid #cccccc;
+    padding: 8px;
+}
+
+button{
+    cursor: pointer;
+    border: 1px solid #888888;
+    background-color: #888888;
+    color: white;
+    padding: 8px;
+}
