@@ -52,12 +52,29 @@ app.get('/about',(req,res)=>{
 })
 
 app.get('/weather',(req,res)=>{
+    const address=req.query.address;
+    if(!address){
+        res.send({
+            error:"you must provide an address"
+        })
+    }
     res.send({
         forecast:"it is snowing",
-        location:"London"
+        location:"London",
+        address
     });
 })
 
+app.get('/products',(req,res)=>{
+    if(!req.query.search){
+        res.send({
+            search:"You must provide a search term"
+        })
+    }
+    res.send({
+        product:[]
+    })
+})
 app.get('*',(req,res)=>{
     res.render('notFound',{
         title:'404',
