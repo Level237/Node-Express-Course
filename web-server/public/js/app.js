@@ -1,20 +1,23 @@
 console.log('client side javascript file is loaded');
 
-fetch('https://puzzle.mead.io/puzzle').then((response)=>{
-    response.json().then((data)=>{
-        console.log(data);
-    })
-})
 
-fetch(`http://us1.locationiq.com//v1/search?key=pk.5662601f43f70d5ab4a2af452f4348bd&q=!&format=json`).then((response)=>{
+
+const weather=document.querySelector('form')
+const search=document.querySelector('input')
+weather.addEventListener('submit',(e)=>{
+    e.preventDefault()
+    const location=search.value;
+
+    fetch(`http://localhost:3000/weather?address=${location}`).then((response)=>{
     response.json().then((data)=>{
-        if(data.err){
-            console.log("unable");
-        }
-        console.log(data[0]);
+        
+        console.log(data);
+        console.log(data.location);
+        console.log(data.forecast);
     }).catch((err)=>{
         console.log(err);
     })
-}).catch((error)=>{
-    console.log(error);
 })
+})
+
+
