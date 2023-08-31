@@ -1,8 +1,12 @@
-const { MongoClient } = require('mongodb')
+const { MongoClient,ObjectId } = require('mongodb')
 
 // Create Instance of MongoClient for mongodb
 const client = new MongoClient('mongodb://localhost:27017')
 const databaseName="task-manager"
+
+const id=new ObjectId()
+console.log(id);
+console.log(id.getTimestamp());
 // Connect to database
 client.connect()
     .then(() => {
@@ -26,15 +30,15 @@ client.connect()
         //age:12
        //}])
 
-       db.collection('tasks').insertMany([{
-        description:"Welcome my children how are you",
-        completed:true
-       },{
-        description:"many insert",
-        completed:false
-       }]).then((result)=>{
-        console.log(result.acknowledged);
-       })
+       //db.collection('tasks').insertMany([{
+        //description:"Welcome my children how are you",
+        //completed:true
+       //},{
+        //description:"many insert",
+        //completed:false
+       //}]).then((result)=>{
+        //console.log(result.acknowledged);
+       //})
 
 
     })
