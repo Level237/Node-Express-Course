@@ -19,13 +19,9 @@ client.connect()
            // console.log(result);
         //})
 
-        db.collection('tasks').updateMany(
+        db.collection('tasks').deleteOne(
             {
-                completed:false
-            },{
-                $set:{
-                    completed:true
-                }
+                description:"Welcome my children how are you"
             }
         ).then((result)=>{
             console.log(result);
