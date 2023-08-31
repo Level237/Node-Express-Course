@@ -19,9 +19,20 @@ client.connect()
            // console.log(result);
         //})
 
-        db.collection('users').countDocuments({age:25}).then((result)=>{
+        db.collection('tasks').updateMany(
+            {
+                completed:false
+            },{
+                $set:{
+                    completed:true
+                }
+            }
+        ).then((result)=>{
             console.log(result);
+        }).catch((err)=>{
+            console.log(err);
         })
+
 
     })
     .catch(error => console.log('Failed to connect!', error))
