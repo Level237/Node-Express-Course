@@ -13,33 +13,15 @@ client.connect()
         console.log('Connected Successfully!')
         const db=client.db(databaseName)
 
-        //db.collection("users").insertOne({
-            //name:"martin lunel",
-            //age:25
-        //}).then((result)=>{
-            //console.log(result);
-        //}).catch((err)=>{
-            //console.log("unable insert user");
-       // })
+        //db.collection('users')
+        //.findOne({name:"leve"})
+        //.then((result)=>{
+           // console.log(result);
+        //})
 
-       //db.collection('users').insertMany([{
-        //name:"level",
-        //age:25
-       //},{
-        //name:"michel",
-        //age:12
-       //}])
-
-       //db.collection('tasks').insertMany([{
-        //description:"Welcome my children how are you",
-        //completed:true
-       //},{
-        //description:"many insert",
-        //completed:false
-       //}]).then((result)=>{
-        //console.log(result.acknowledged);
-       //})
-
+        db.collection('users').countDocuments({age:25}).then((result)=>{
+            console.log(result);
+        })
 
     })
     .catch(error => console.log('Failed to connect!', error))
