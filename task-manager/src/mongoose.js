@@ -12,6 +12,16 @@ const User=mongoose.model('User',{
         required:true,
         trim:true,
     },
+
+    password:{
+        type:String,
+        required:true,
+        trim:true,
+        minlength:7,
+        validate(value){
+            if(value.toLowerCase().includes('password')) throw new Error("your password don't contains password value")
+        }
+    },
     email:{
         type:String,
         required:true,
@@ -36,7 +46,8 @@ const User=mongoose.model('User',{
 
 const me=new User({
    name:"Balep martin",
-  email:"BRAMSLEVEL@GMAIL.COM"
+  email:"BRAMSLEVEL@GMAIL.COM",
+  password:"hash129"
 })
 
 me.save().then(()=>{
@@ -48,10 +59,12 @@ me.save().then(()=>{
 const Task=mongoose.model('Task',{
     description:{
         type:String,
-        require:true
+        require:true,
+        trim:true
     },
     completed:{
-        type:Boolean
+        type:Boolean,
+        default:false
     }
 })
 
