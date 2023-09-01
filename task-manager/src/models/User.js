@@ -1,11 +1,6 @@
 const mongoose=require('mongoose');
 const validator=require('validator')
 
-mongoose.connect('mongodb://localhost:27017/task-manager-api').then(()=>{
-    
-    console.log("DB connection successfull!")
-})
-
 const User=mongoose.model('User',{
     name:{
         type:String,
@@ -44,39 +39,6 @@ const User=mongoose.model('User',{
     }
 });
 
-const me=new User({
-   name:"Balep martin",
-  email:"BRAMSLEVEL@GMAIL.COM",
-  password:"hash129"
-})
-
-me.save().then(()=>{
-    console.log(me);
-}).catch((err)=>{
-    console.log("Error!",err.message);
-})
-
-const Task=mongoose.model('Task',{
-    description:{
-        type:String,
-        require:true,
-        trim:true
-    },
-    completed:{
-        type:Boolean,
-        default:false
-    }
-})
+module.exports=User;
 
 
-
-const task=new Task({
-    description:"Best Seller of the moment",
-    completed:false
-})
-
-//task.save().then(()=>{
-    //console.log(task);
-//}).catch((err)=>{
-    //console.log("Error",err);
-//})
