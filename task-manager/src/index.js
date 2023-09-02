@@ -122,7 +122,7 @@ app.get('/task/:id',async(req,res)=>{
     //})
 })
 
-app.patch("/users/:id",async(req,res)=>{
+app.patch("/user/:id",async(req,res)=>{
     const updates=Object.keys(req.body)
     const allowedUpdate=["name","email","password","age"];
     const   isValidationOperation=updates.every((update)=>allowedUpdate.includes(update))
@@ -138,6 +138,27 @@ app.patch("/users/:id",async(req,res)=>{
         }
 
         res.send(user)
+    }catch(e){
+        res.status(400).send(e)
+    }
+})
+
+app.patch("/task/:id",async(req,res)=>{
+    const updates=Object.keys(req.body)
+    const allowedUpdate=["description","completed"];
+    const   isValidationOperation=updates.every((update)=>allowedUpdate.includes(update))
+    
+    if(!isValidationOperation){
+        return res.status(400).send({error:"Invalid body"})
+    }
+    try{
+        const task=await Task.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
+        
+        if(!task){
+            return res.status(404).send()
+        }
+
+        res.send(task)
     }catch(e){
         res.status(400).send(e)
     }
