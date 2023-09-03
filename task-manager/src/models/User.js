@@ -1,13 +1,21 @@
 const mongoose=require('mongoose');
 const validator=require('validator')
 const bcrypt=require('bcryptjs')
+const uniqueValidator = require('mongoose-unique-validator');
 const userSchema=mongoose.Schema({
+    
     name:{
         type:String,
         required:true,
         trim:true,
+        unique:true
     },
-
+email:{
+type:String,
+required:true,
+lowercase:true,
+unique:true
+},
     password:{
         type:String,
         required:true,
@@ -17,17 +25,24 @@ const userSchema=mongoose.Schema({
             if(value.toLowerCase().includes('password')) throw new Error("your password don't contains password value")
         }
     },
-    email:{
-        type:String,
-        required:true,
-        trim:true,
-        lowercase:true,
-        validate(value){
-            if(!validator.isEmail(value)){
-                throw new Error('Email is invalid') 
+    /* alternative field unique
+    email: {
+        type: String,
+        validate: {
+          validator: async function(email) {
+            const user = await this.constructor.findOne({ email });
+            if(user) {
+              if(this.id === user.id) {
+                return true;
+              }
+              return false;
             }
-        }
-    },
+            return true;
+          },
+          message: props => 'The specified email address is already in use.'
+        },
+        required: [true, 'User email required']
+      },*/
     age:{
         type:Number,
         default:0,
@@ -39,6 +54,27 @@ const userSchema=mongoose.Schema({
     }
 })
 
+// Apply the uniqueValidator plugin to userSchema.
+userSchema.plugin(uniqueValidator, { message: 'Error, expected {PATH} to be unique.' });
+userSchema.statics.findByCredentials=async (email,password)=>{
+    
+    const user=await User.findOne({email})
+
+    if(!user){
+        throw new Error('Unable')
+    }
+    !user ? ()=>{throw new Error('Unable to login')} : ""
+
+    const isMatch=await bcrypt.compare(password,user.password)
+    if(!isMatch){
+        throw new Error('Unable')
+    }
+    !isMatch ? ()=>{throw new Error('Unable to login')} : ""
+
+    return user;
+}
+
+// Hash the plain text password before saving
 userSchema.pre('save',async function (next) {
     const user=this;
 
