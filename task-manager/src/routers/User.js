@@ -68,14 +68,22 @@ router.patch("/user/:id",async(req,res)=>{
     if(!isValidationOperation){
         return res.status(400).send({error:"Invalid body"})
     }
+    console.log(req.params.id); 
     try{
-        const user=await User.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
+        console.time('update')
+        const user=await User.findById(req.params.id)
+        
+        updates.forEach((update)=>user[update]=req.body[update])
+
+        await user.save()
+        //const user=await User.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
         
         if(!user){
             return res.status(404).send()
         }
 
         res.send(user)
+        console.timeEnd('update')
     }catch(e){
         res.status(400).send(e)
     }

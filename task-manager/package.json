@@ -5,12 +5,13 @@
   "main": "mongodb.js",
   "scripts": {
     "start": "node src/app.js",
-    "dev":"nodemon src/index.js"
+    "dev": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.18.2",
     "mongodb": "^6.0.0",
     "mongoose": "^7.5.0",
