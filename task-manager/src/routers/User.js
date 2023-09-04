@@ -97,6 +97,33 @@ router.patch("/user/:id",async(req,res)=>{
     }
 })
 
+router.post('/users/logout',auth,async(req,res)=>{
+
+    try {
+        req.user.tokens=req.user.tokens.filter((token)=>{
+            return token.token !== req.token
+        })
+        await req.user.save();
+
+        res.send()
+        console.log(req.user.tokens);
+    } catch (error) {
+        res.status(500).send()
+    }
+})
+
+router.post('/users/logoutAll',auth,async(req,res)=>{
+
+    
+    try {
+        req.user.tokens=[]
+
+        await req.user.save();
+        res.send()
+    } catch (error) {
+        res.status(500).send()
+    }
+})
 router.delete("/users/:id",async(req,res)=>{
     try {
         const user=await User.findByIdAndDelete(req.params.id)
