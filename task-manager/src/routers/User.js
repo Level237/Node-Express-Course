@@ -1,17 +1,12 @@
 const app= require("express")
 const router=app.Router();
 const User=require('../models/User')
+const auth=require('../middleware/auth')
 
 
 
-router.get("/users",async(req,res)=>{
-
-    try{
-        const user=await User.find({})
-        res.send(user)
-    }catch(e){
-        res.status(500).send(e)
-    }
+router.get("/users/me",auth,async(req,res)=>{
+res.send(req.user)
 })
 
 router.post('/users/login',async(req,res)=>{
