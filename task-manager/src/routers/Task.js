@@ -7,19 +7,29 @@ const Task=require('../models/Task')
 router.get("/tasks",auth,async(req,res)=>{
 
     const match={}
+    const sort={}
     try{
         //const tasks=await Task.find({owner:req.user._id});
 
          req.query.completed ?  match.completed=req.query.completed==="true" : null
 
-        console.log(req.query);
+         if(req.query.sortBy){
+            const parts=req.query.sortBys
+         }
+        
         await req.user.populate({
             path:'tasks',
-           match
+           match,
+           options:{
+            limit:req.query.limit,
+            skip:req.query.skip,
+            sort: { 'completed': -1 }
+           }
         })
+        //const tasks=Task.find({}).sort({completed:true})
         res.status(200).send(req.user.tasks);
     }catch(e){
-
+        res.send(e)
     }
     //Task.find({}).then((task)=>{
         //res.status(200).send(task)
@@ -66,9 +76,7 @@ router.get('/task/:id',auth,async(req,res)=>{
 
     //Task.findById(__id).then((task)=>{
         //if(!task){
-            //res.status(404).send()
-        //}
-        
+            //res.status(404).s
         //res.status(200).send(task)
     //}).catch((e)=>{
         //res.status(500).send()
