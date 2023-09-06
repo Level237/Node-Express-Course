@@ -60,6 +60,8 @@ unique:true
             required:true,
         }
     }]
+},{
+    timestamps:true
 })
 
 // Apply the uniqueValidator plugin to userSchema.
