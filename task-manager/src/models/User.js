@@ -3,6 +3,7 @@ const jwt=require('jsonwebtoken')
 const validator=require('validator')
 const bcrypt=require('bcryptjs')
 const uniqueValidator = require('mongoose-unique-validator');
+const Task=require('../models/Task')
 const userSchema=mongoose.Schema({
     
     name:{
@@ -100,6 +101,7 @@ userSchema.methods.toJSON=function(){
 userSchema.methods.generateAuthToken=async function(){
     const user=this
     const token=jwt.sign({_id:user._id},'thisismynewcourse');
+    
     user.tokens=user.tokens.concat({token})
 
     await user.save()
@@ -115,6 +117,19 @@ userSchema.pre('save',async function (next) {
     }
     next()
 })
+
+
+//delete user tasks when user is removed
+/*
+userSchema.pre("findById",async function(next){
+
+    const user=this;
+    //const del=await Task.deleteMany({owner:user._id})
+    console.log(del);
+    console.log(this);
+    //console.log(user);
+    next();
+})*/
 const User=mongoose.model('User',userSchema);
 
 

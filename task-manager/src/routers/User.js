@@ -1,6 +1,7 @@
 const app= require("express")
 const router=app.Router();
 const User=require('../models/User')
+const Task=require('../models/Task')
 const auth=require('../middleware/auth')
 
 
@@ -121,14 +122,17 @@ router.post('/users/logoutAll',auth,async(req,res)=>{
 })
 router.delete("/users/me",auth,async(req,res)=>{
     try {
-        const user=await User.findByIdAndDelete(req.user._id)
+        const user=await User.findOneAndDelete(req.user._id)
+       
         if(!user){
             return res.status(404).send()
         }
 
-        res.send(user)
+        const tasks=await Task.deleteMany({owner:req.user._id})
+        console.log(tasks);
+        res.send({"message":"removed completed"})
     } catch (error) {
-        res.status(400).send()
+        res.status(400).send(error)
     }
 })
 
