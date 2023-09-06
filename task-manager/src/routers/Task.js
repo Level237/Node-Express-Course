@@ -6,9 +6,17 @@ const Task=require('../models/Task')
 
 router.get("/tasks",auth,async(req,res)=>{
 
+    const match={}
     try{
         //const tasks=await Task.find({owner:req.user._id});
-        await req.user.populate('tasks')
+
+         req.query.completed ?  match.completed=req.query.completed==="true" : null
+
+        console.log(req.query);
+        await req.user.populate({
+            path:'tasks',
+           match
+        })
         res.status(200).send(req.user.tasks);
     }catch(e){
 
