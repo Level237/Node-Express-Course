@@ -5,6 +5,7 @@ const Task=require('../models/Task')
 const auth=require('../middleware/auth')
 const multer=require('multer')
 const sharp = require("sharp")
+const { sendMessage } = require("../emails/sendEmail")
 
 const router=app.Router();
 const upload=multer({
@@ -19,6 +20,7 @@ const upload=multer({
         cb(undefined,true)
     }
 })
+
 router.get("/users/me",auth,async(req,res)=>{
 res.send(req.user)
 })
@@ -66,6 +68,7 @@ router.post('/users',async (req,res)=>{
 
     try{
         await user.save()
+        sendMessage(user.email,user.name)
         const token=await user.generateAuthToken()
         res.status(201).send({user,token})
     }catch(e){
