@@ -7,7 +7,7 @@ const multer=require('multer')
 
 const router=app.Router();
 const upload=multer({
-    dest:"images/avatars",
+
     limits:{
         fileSize:1000000
     },
@@ -15,6 +15,7 @@ const upload=multer({
         if(!file.originalname.match(/\.(jpeg|jpg|png)$/)){
             return cb(new Error('Please upload a image'))
         }
+        cb(undefined,true)
     }
 })
 router.get("/users/me",auth,async(req,res)=>{
@@ -147,10 +148,26 @@ router.delete("/users/me",auth,async(req,res)=>{
     }
 })
 
-router.post('/users/me/avatar',upload.single('avatar'),(req,res)=>{
-    res.send()
+router.post('/users/me/avatar',auth,upload.single('avatar'),async(req,res)=>{
+    
+
+    try{
+        req.user.avatar=req.file.buffer
+        await req.user.save()
+        res.send()
+    }catch(e){
+        res.send(e)
+    }
 },(err,req,res,next)=>{
     res.send({error:err.message})
+})
+
+router.delete('/users/me/avatar',auth,async(req,res)=>{
+
+    req.user.avatar=undefined
+    await req.user.save()
+
+    res.send({message:"avatar has delete successfully"})
 })
 
 
