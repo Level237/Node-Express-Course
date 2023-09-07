@@ -7,7 +7,15 @@ const multer=require('multer')
 
 const router=app.Router();
 const upload=multer({
-    dest:"images/avatars"
+    dest:"images/avatars",
+    limits:{
+        fileSize:1000000
+    },
+    fileFilter(req,file,cb){
+        if(!file.originalname.match(/\.(jpeg|jpg|png)$/)){
+            return cb(new Error('Please upload a image'))
+        }
+    }
 })
 router.get("/users/me",auth,async(req,res)=>{
 res.send(req.user)
