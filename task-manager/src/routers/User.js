@@ -149,6 +149,8 @@ router.delete("/users/me",auth,async(req,res)=>{
 
 router.post('/users/me/avatar',upload.single('avatar'),(req,res)=>{
     res.send()
+},(err,req,res,next)=>{
+    res.send({error:err.message})
 })
 
 
