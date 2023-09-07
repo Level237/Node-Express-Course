@@ -6,7 +6,7 @@ const taskRouter=require('./routers/Task')
 
 
 const app=express()
-const port=process.env.PORT || 3000
+const port=process.env.PORT
 
 /*app.use((req,res,next)=>{
     if(req.method==="GET"){
