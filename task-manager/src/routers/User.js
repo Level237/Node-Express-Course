@@ -1,11 +1,14 @@
 const app= require("express")
-const router=app.Router();
+
 const User=require('../models/User')
 const Task=require('../models/Task')
 const auth=require('../middleware/auth')
+const multer=require('multer')
 
-
-
+const router=app.Router();
+const upload=multer({
+    dest:"images/avatars"
+})
 router.get("/users/me",auth,async(req,res)=>{
 res.send(req.user)
 })
@@ -134,6 +137,10 @@ router.delete("/users/me",auth,async(req,res)=>{
     } catch (error) {
         res.status(400).send(error)
     }
+})
+
+router.post('/users/me/avatar',upload.single('avatar'),(req,res)=>{
+    res.send()
 })
 
 
