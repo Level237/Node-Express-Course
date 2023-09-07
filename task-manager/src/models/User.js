@@ -98,6 +98,7 @@ userSchema.methods.toJSON=function(){
 
     delete userObject.tokens
     delete userObject.password
+    delete userObject.avatar;
     return userObject;
 }
 

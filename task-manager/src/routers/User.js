@@ -4,6 +4,7 @@ const User=require('../models/User')
 const Task=require('../models/Task')
 const auth=require('../middleware/auth')
 const multer=require('multer')
+const sharp = require("sharp")
 
 const router=app.Router();
 const upload=multer({
@@ -152,7 +153,10 @@ router.post('/users/me/avatar',auth,upload.single('avatar'),async(req,res)=>{
     
 
     try{
-        req.user.avatar=req.file.buffer
+        //req.user.avatar=req.file.buffer
+        const buffer=await sharp(req.file.buffer).resize({width:250,height:250}).png().toBuffer()
+        console.log(buffer);
+        req.user.avatar=buffer
         await req.user.save()
         res.send()
     }catch(e){
@@ -170,5 +174,18 @@ router.delete('/users/me/avatar',auth,async(req,res)=>{
     res.send({message:"avatar has delete successfully"})
 })
 
+router.get('/users/:id/avatar',async(req,res)=>{
+    try {
+        const user=await User.findById(req.params.id)
+        if(!user || !user.avatar){
+            throw new Error()
+        }
+
+        res.set('Content-Type','image/jpg')
+        res.send(user.avatar)
+    } catch (error) {
+        res.status(404).send()
+    }
+})
 
 module.exports=router
