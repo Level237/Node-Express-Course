@@ -6,10 +6,10 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "env-cmd -f  ./config/dev.env nodemon src/index.js",
-    "test" : "env-cmd -f ./config/test.env jest --watch"
+    "test": "env-cmd -f ./config/test.env jest --watch"
   },
-  "jest":{
-    "testEnvironment":"node"
+  "jest": {
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +29,7 @@
     "validator": "^13.11.0"
   },
   "devDependencies": {
-    "jest": "^29.6.4"
+    "jest": "^29.6.4",
+    "supertest": "^6.3.3"
   }
 }
