@@ -1,7 +1,8 @@
-test('Hello word',()=>{
+const {calculateTip}=require('../src/math')
 
-})
+test('Should calculate total with tip',()=>{
 
-test('this should fail',()=>{
-    throw new Error('faillure')
+    const total=calculateTip(10,.3)
+
+   expect(total).toBe(13)
 })
