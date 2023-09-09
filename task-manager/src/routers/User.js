@@ -2,6 +2,7 @@ const app= require("express")
 
 const User=require('../models/User')
 const Task=require('../models/Task')
+const jwt = require('jsonwebtoken');
 const auth=require('../middleware/auth')
 const multer=require('multer')
 const sharp = require("sharp")
