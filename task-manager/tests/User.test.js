@@ -22,11 +22,18 @@ beforeEach(async()=>{
 
 
 test('Should signup a new User',async()=>{
-    await request(app).post('/users').send({
+    const response=await request(app).post('/users').send({
         name:"andrew",
         email:"andrew@gmail.com",
         password:"levelvertos"
     }).expect(201)
+
+    // Assert that the database was changed correctly
+    const user=await User.findById(response.body.user._id)
+    expect(user).not.toBeNull()
+
+    //Assertions about the response
+    expect(response.body.user.name).toBe("andrew")
 })
 
 test('should login existing user',async()=>{
@@ -65,6 +72,8 @@ test('Should delete account for user',async()=>{
     .set("Authorization",`Bearer ${userOne.tokens[0].token}`)
     .send()
     .expect(200)
+    const user= await User.findById(userOne)
+    expect(user).toBeNull()
 })
 
 test('Should not delete for unauthenticated user',async()=>{
