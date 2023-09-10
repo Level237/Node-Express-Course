@@ -125,7 +125,7 @@ router.delete("/task/:id",auth,async(req,res)=>{
 
         res.send(task)
     } catch (error) {
-        res.status(400).send()
+        res.status(401).send()
     }
 })
 
