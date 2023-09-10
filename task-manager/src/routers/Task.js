@@ -101,7 +101,7 @@ router.patch("/task/:id",auth,async(req,res)=>{
         //const task=await Task.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true})
         
         if(!task){
-            return res.status(404).send()
+            return res.status(400).send()
         }
         updates.forEach((update) =>task[update]=req.body[update]);
 

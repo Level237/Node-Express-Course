@@ -109,3 +109,41 @@ test("Should not update invalid user field",async()=>{
     })
     .expect(400)
 })
+
+test("Should not signup user with invalid name/email/password", async()=>{
+        await request(app)
+        .post("/users")
+        .send({
+            name:"le",
+            email:"bramslevel@gmail.com",
+            password:"leo"
+        }).expect(400)
+})
+
+test('Should not update user if unauthenticated', async() => {
+  
+    await request(app)
+        .patch("/users/me")
+        .send({
+            name:"hi"
+        }).expect(401)
+})
+
+test('Should not update user with invalid name/email/password', async () => { 
+    await request(app)
+    .patch("/users/me")
+    .set("Authorization",`Bearer ${userOne.tokens[0].token}`)
+    .send({
+        password:"le"
+    }).expect(400)
+ })
+
+
+
+//
+// User Test Ideas
+//
+// Should not signup user with invalid name/email/password
+// Should not update user if unauthenticated
+// Should not update user with invalid name/email/password
+// Should not delete user if unauthenticated

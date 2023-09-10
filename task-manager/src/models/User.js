@@ -15,8 +15,17 @@ const userSchema=mongoose.Schema({
 email:{
 type:String,
 required:true,
+validate(value){
+    const regex=/^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+   const testEmail=regex.test(value)
+   if(!testEmail){
+    throw new Error("Invalid email")
+   }
+   
+  },
 lowercase:true,
-unique:true
+unique:true,
+
 },
     password:{
         type:String,
