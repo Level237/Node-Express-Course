@@ -10,7 +10,14 @@ const publicDirectoryPath=path.join(__dirname,'../public')
 
 app.use(express.static(publicDirectoryPath))
 
-let count=0;
+let name="martin"
+io.on('connection',(socket)=>{
+    console.log("New WebSocket message");
+    socket.on("message",(message)=>{
+        console.log(message);
+    })
+})
+/*
 io.on('connection',(socket)=>{
     console.log("New WebSocket connection");
     socket.emit("CountUpdated",count)
@@ -20,7 +27,7 @@ io.on('connection',(socket)=>{
         //socket.emit("CountUpdated",count)
         io.emit("CountUpdated",count)
     })
-})
+})*/
 
 const port=process.env.port || 3000
 server.listen(3000,()=>{
