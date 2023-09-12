@@ -13,8 +13,14 @@ app.use(express.static(publicDirectoryPath))
 let name="martin"
 io.on('connection',(socket)=>{
     console.log("New WebSocket message");
+    socket.emit("message","welcome")
+    socket.broadcast.emit("message","new user has joined")
     socket.on("message",(message)=>{
-        console.log(message);
+        io.emit("message",message)
+    })
+
+    socket.on("disconnect",()=>{
+        io.emit("message"," A user has left!")
     })
 })
 /*

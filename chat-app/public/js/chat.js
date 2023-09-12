@@ -1,10 +1,14 @@
 const socket=io()
 
+socket.on("message",(message)=>{
+    console.log("hi "+message);
+})
 document.getElementById('send').addEventListener("submit",(e)=>{
     e.preventDefault()
     const message=e.target.elements.message.value;
-    console.log(message);
+    console.log("hi "+message);
     socket.emit("message",message)
+   
 })
 
 /*
