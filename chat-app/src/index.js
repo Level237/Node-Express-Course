@@ -3,7 +3,7 @@ const http=require('http')
 const path=require('path')
 const socketio=require('socket.io')
 const Filter=require('bad-words')
-const {generateMessage}=require('./utils/messages')
+const {generateMessage,generateLocationMessage}=require('./utils/messages')
 const app=express()
 const server=http.createServer(app)
 const io=socketio(server)
@@ -28,7 +28,7 @@ io.on('connection',(socket)=>{
 
     socket.on("sendlocation",(position,callback)=>{
         const message=`https://www.google.com/maps?q=${position.lat},${position.lon}`
-        io.emit("locationMessage",message)
+        io.emit("locationMessage",generateLocationMessage(message))
         console.log(position);
         callback()
     })
