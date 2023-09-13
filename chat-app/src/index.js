@@ -3,7 +3,7 @@ const http=require('http')
 const path=require('path')
 const socketio=require('socket.io')
 const Filter=require('bad-words')
-
+const {generateMessage}=require('./utils/messages')
 const app=express()
 const server=http.createServer(app)
 const io=socketio(server)
@@ -14,15 +14,15 @@ app.use(express.static(publicDirectoryPath))
 let name="martin"
 io.on('connection',(socket)=>{
     console.log("New WebSocket message");
-    socket.emit("message","welcome")
-    socket.broadcast.emit("message","new user has joined")
+    socket.emit("message",generateMessage("welcome"))
+    socket.broadcast.emit("message",generateMessage("new user has joined"))
     socket.on("message",(message,callback)=>{
         const filter=new Filter()
 
         if(filter.isProfane(message)){
             return callback("profanity is not allowed")
         }
-        io.emit("message",message)
+        io.emit("message",generateMessage(message))
         callback()
     })
 
@@ -34,7 +34,7 @@ io.on('connection',(socket)=>{
     })
 
     socket.on("disconnect",()=>{
-        io.emit("message"," A user has left!")
+        io.emit("message",generateMessage("A user has left!"))
     })
 })
 /*
