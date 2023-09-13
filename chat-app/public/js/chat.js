@@ -1,13 +1,18 @@
 const socket=io()
 
 socket.on("message",(message)=>{
-    console.log("hi "+message);
+    console.log(message);
 })
 document.getElementById('send').addEventListener("submit",(e)=>{
     e.preventDefault()
     const message=e.target.elements.message.value;
-    console.log("hi "+message);
-    socket.emit("message",message)
+    console.log(message);
+    socket.emit("message",message,(error)=>{
+        if (error) {
+            return console.log(error)
+        }
+        console.log("the message was delivered");
+    })
    
 })
 
@@ -19,7 +24,9 @@ document.querySelector('#send-location').addEventListener("click",()=>{
 
     navigator.geolocation.getCurrentPosition((position)=>{
         const positionObject={lat:position.coords.latitude,lon:position.coords.longitude}
-        socket.emit("sendlocation",positionObject)
+        socket.emit("sendlocation",positionObject,()=>{
+            console.log("location shared");
+        })
         console.log(position.coords.latitude);
     })
 })

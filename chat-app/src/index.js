@@ -2,6 +2,7 @@ const express=require('express')
 const http=require('http')
 const path=require('path')
 const socketio=require('socket.io')
+const Filter=require('bad-words')
 
 const app=express()
 const server=http.createServer(app)
@@ -15,14 +16,21 @@ io.on('connection',(socket)=>{
     console.log("New WebSocket message");
     socket.emit("message","welcome")
     socket.broadcast.emit("message","new user has joined")
-    socket.on("message",(message)=>{
+    socket.on("message",(message,callback)=>{
+        const filter=new Filter()
+
+        if(filter.isProfane(message)){
+            return callback("profanity is not allowed")
+        }
         io.emit("message",message)
+        callback()
     })
 
-    socket.on("sendlocation",(position)=>{
+    socket.on("sendlocation",(position,callback)=>{
         const message=`https://www.google.com/maps?q=${position.lat},${position.lon}`
         io.emit("message",message)
         console.log(position);
+        callback()
     })
 
     socket.on("disconnect",()=>{
