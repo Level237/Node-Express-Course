@@ -14,15 +14,14 @@ app.use(express.static(publicDirectoryPath))
 let name="martin"
 io.on('connection',(socket)=>{
     console.log("New WebSocket message");
-    socket.emit("message",generateMessage("welcome"))
-    socket.broadcast.emit("message",generateMessage("new user has joined"))
+    
     socket.on("message",(message,callback)=>{
         const filter=new Filter()
 
         if(filter.isProfane(message)){
             return callback("profanity is not allowed")
         }
-        io.emit("message",generateMessage(message))
+        io.to("center city").emit("message",generateMessage(message))
         callback()
     })
 
@@ -32,9 +31,15 @@ io.on('connection',(socket)=>{
         console.log(position);
         callback()
     })
+    socket.on("join",({username,room})=>{
+        socket.join(room)
+        socket.emit("message",generateMessage("welcome"))
+        socket.broadcast.to(room).emit("message",generateMessage(`${username} has joined!`))
+        //
+    })
 
     socket.on("disconnect",()=>{
-        io.emit("message",generateMessage("A user has left!"))
+        io.emit("message",generateMessage(`user has left!`))
     })
 })
 /*
