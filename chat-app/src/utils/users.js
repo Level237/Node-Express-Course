@@ -42,3 +42,23 @@ const removeUser=(id)=>{
         return users.splice(index,1)[0]
     }
 }
+
+const getUser=(id)=>{
+    const user=users.find((user)=>user.id===id)
+
+    if(user){
+        return user
+    }
+}
+
+const getuserRoom=(room)=>{
+    room=room.trim().toLowercase()
+    return users.filter((user)=>user.room===room)
+}
+
+module.exports={
+    addUser,
+    removeUser,
+    getUser,
+    getuserRoom
+}
