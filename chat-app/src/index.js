@@ -4,6 +4,7 @@ const path=require('path')
 const socketio=require('socket.io')
 const Filter=require('bad-words')
 const {generateMessage,generateLocationMessage}=require('./utils/messages')
+const {addUser,removeUser,getUser,getuserRoom}=require('./utils/users')
 const app=express()
 const server=http.createServer(app)
 const io=socketio(server)
@@ -31,15 +32,26 @@ io.on('connection',(socket)=>{
         console.log(position);
         callback()
     })
-    socket.on("join",({username,room})=>{
-        socket.join(room)
+    socket.on("join",(options,callback)=>{
+        const {error,user}=addUser({id:socket.id,...options})
+
+        if(error){
+            callback(error)
+        }
+        socket.join(user.room)
         socket.emit("message",generateMessage("welcome"))
-        socket.broadcast.to(room).emit("message",generateMessage(`${username} has joined!`))
-        //
+        socket.broadcast.to(user.room).emit("message",generateMessage(`${user.username} has joined!`))
+        
+        callback()
     })
 
     socket.on("disconnect",()=>{
-        io.emit("message",generateMessage(`user has left!`))
+        const user=removeUser(socket.id)
+
+        if(user){
+            io.to(user.room).emit("message",generateMessage(`${user.username} has left!`))
+        }
+        
     })
 })
 /*

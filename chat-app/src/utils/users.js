@@ -3,8 +3,8 @@ const users=[]
 // Adduser,removeUser,getUser,getuserRoom
 const addUser=({id,username,room})=>{
 
-    username=username.trim().toLowercase()
-    room=room.trim().toLowercase()
+    username=username.trim().toLowerCase()
+    room=room.trim().toLowerCase()
 
     // validate the data
     if(!username || !room){
@@ -15,15 +15,17 @@ const addUser=({id,username,room})=>{
 
     // Check for existing user
     const existingUser=users.find((user)=>{
-        user.room===room && user.username===username
+        return user.room===room && user.username===username
+        
     })
 
     //Validate username
-
+  
     if(existingUser){
         return{
             error:'Username is in use'
         }
+        
     }
 
     // store user
